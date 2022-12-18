@@ -1,0 +1,58 @@
+push [1 2 3] ; Прочитать первый вектор
+pop vec1
+push [4 5 6] ; Прочитать второй вектор
+pop vec2
+push vec1
+push vec2
++
+write; Выведет вектор [5 7 9]
+push vec1
+push vec2
+-
+write; Выведет вектор [-3 -3 -3]
+push vec1
+push vec2
+*
+write; Выведет вектор [4 10 18]
+push vec1
+push vec2
+/
+write; Выведет вектор [0 0 0]
+push vec1
+push vec2
+conc
+write; Выведет вектор [1 2 3 4 5 6]
+push vec1
+push vec2
+scalarproduct
+write; Выведет число 32
+push vec1
+push 1
+push 1
+subvector
+write; Выведет вектор [2]
+push vec2
+push 2
+shiftr
+write; Выведет вектор [0 0 4]
+push vec2
+push 1
+shiftl
+write; Выведет вектор [5 6 0]
+push vec1
+push 1
+at
+write; Выведет число 2
+push [1 1 1]
+pop vec1
+push vec1
+push [2 2 2]
+*
+pop vec1
+push vec1
+push [8 8 8]
+!=
+ji 48
+push vec1
+write; Выведет вектор [8 8 8]
+end
