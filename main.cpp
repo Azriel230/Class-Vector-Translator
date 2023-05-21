@@ -1,3 +1,4 @@
+
 //#include "vector.h"
 //#include <iostream>
 //
@@ -41,3 +42,26 @@
 //	vec.push_back(4);
 //	std::cout << vec;
 //}
+
+#include "CF_Grammar_LR1.h"
+
+int main()
+{
+	CF_Grammar bob("LR1Grammar.txt");
+	bob.print_rules();
+
+	std::cout << std::endl;
+
+	Syntactical_Symbol A;
+	A.m_is_terminal_symbol = false;
+	A.m_name_symbol = "";
+	A.m_id_symbol = bob.get_id("{S}");
+
+	auto bobik = bob.FIRST1(A);
+
+	for (auto it : bobik)
+		std::cout << it.m_name_symbol << " ";
+
+
+	return 0;
+}

@@ -1,12 +1,1 @@
-goto
-default,
-at
-dim:
-for[
-as,
-+-
-^*$
-134daaf
-[1 2 
-~adb
-<<<<
+aboba Aboba

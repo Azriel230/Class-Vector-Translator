@@ -1,0 +1,4 @@
+{S} dim V as int
+{S} set V to {E}
+{S} {E} aboba
+{E} if abrakadabra
