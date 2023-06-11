@@ -945,7 +945,7 @@ int read_rel_CrConstRel()
 int kw_var_bracket_CrSw()
 {
 	reg_class = lex_switch;
-	return kw_var_bracket;
+	return kw_var_bracket2;
 }
 int kw_var_default_CrDefault()
 {
@@ -2113,17 +2113,18 @@ int main(int argc, char* argv[])
 	initialize_table();
 	parse("LIV1.txt");
 
-	/*std::cout << "\t" << "<Name Table>" << std::endl;
+	std::cout << "\t" << "<Name Table>" << std::endl;
 	printNameTable();
 	printConstTable();
 	printMarkTable();
 	printLexemList();
 	std::cout << std::endl;
-	PrintErrorList();*/
+	PrintErrorList();
 	//parse(argv[1]);
 
 	Syntactical_Symbol S(false, "{S'}", 100);
 	CF_Grammar* bob = new CF_Grammar("LR1Grammar.txt");
+	bob->print_rules();
 	bob->PrepareInputWord(lexem_list);
 	bob->synt_parse();
 

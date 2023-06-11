@@ -32,6 +32,16 @@
 //
 //	return 0;
 //}
+
+//int main()
+//{
+//	Vector vec;
+//	vec.push_back(10);
+//	vec.push_back(0);
+//	vec.push_back(0);
+//	vec.push_back(4);
+//	std::cout << vec;
+//}
 //
 //#include "CF_Grammar_LR1.h"
 //
@@ -42,12 +52,15 @@
 //
 //	std::cout << std::endl;
 //
-//	Syntactical_Symbol A(false, "Aboba", bob.get_id("{S}"));
+//	Syntactical_Symbol A;
+//	A.m_is_terminal_symbol = false;
+//	A.m_name_symbol = "";
+//	A.m_id_symbol = bob.get_id("{S}");
 //
 //	auto bobik = bob.FIRST1(A);
 //
 //	for (auto it : bobik)
-//		std::cout << it.m_name << " ";
+//		std::cout << it.m_name_symbol << " ";
 //
 //
 //	return 0;

@@ -44,8 +44,8 @@ void CF_Grammar::Fill_terminal_symbols()
 	m_terminals.emplace("->", Syntactical_Symbol(true, "->", 27));
 	m_terminals.emplace("cin", Syntactical_Symbol(true, "cin", 28));
 	m_terminals.emplace("cout", Syntactical_Symbol(true, "cout", 29));
-	m_terminals.emplace("goto", Syntactical_Symbol(true, "goto", 30));
-	m_terminals.emplace("mark_goto", Syntactical_Symbol(true, "mark_goto", 31));
+	m_terminals.emplace("mark_goto", Syntactical_Symbol(true, "mark_goto", 30)); //метка вида L:
+	m_terminals.emplace("goto", Syntactical_Symbol(true, "goto", 31));
 	m_terminals.emplace("switch", Syntactical_Symbol(true, "switch", 32));
 	m_terminals.emplace("case", Syntactical_Symbol(true, "case", 33));
 	m_terminals.emplace("default", Syntactical_Symbol(true, "default", 34));
@@ -66,55 +66,54 @@ void CF_Grammar::Fill_terminal_symbols()
 	m_terminals.emplace("remark", Syntactical_Symbol(true, "remark", 49)); //?
 	m_terminals.emplace("error", Syntactical_Symbol(true, "error", 50));
 	m_terminals.emplace("mark_end", Syntactical_Symbol(true, "mark_end", 51));
-	m_terminals.emplace("mark", Syntactical_Symbol(true, "mark", 52)); //метка вида L:
 
 	m_terminals.emplace("epsilon", Syntactical_Symbol(true, "epsilon", -1));
 
 	m_terminals.emplace("a", Syntactical_Symbol(true, "a", 60));
 	m_terminals.emplace("b", Syntactical_Symbol(true, "b", 61));
 }
-	//m_terminals.emplace(";", lex_semicolon_mark);
-	//m_terminals.emplace("dim", lex_dim);
-	//m_terminals.emplace("as", lex_as);
-	//m_terminals.emplace("int", lex_int);
-	//m_terminals.emplace("vec", lex_vec);
-	//m_terminals.emplace("set", lex_set);
-	//m_terminals.emplace("to", lex_to);
-	//m_terminals.emplace("while", lex_while);
-	//m_terminals.emplace("do", lex_do);
-	//m_terminals.emplace("for", lex_for);
-	//m_terminals.emplace("if", lex_if);
-	//m_terminals.emplace("then", lex_then);
-	//m_terminals.emplace("else", lex_else);
-	//m_terminals.emplace("<-", lex_cin_mark);
-	//m_terminals.emplace("->", lex_cout_mark);
-	//m_terminals.emplace("cin", lex_cin);
-	//m_terminals.emplace("cout", lex_cout);
-	//m_terminals.emplace("mark", lex_mark); //					???????????????
-	//m_terminals.emplace(":", lex_colon_mark);
-	//m_terminals.emplace(",", lex_comma_mark);
-	//m_terminals.emplace("goto", lex_goto_mark);
-	//m_terminals.emplace("switch", lex_switch);
-	//m_terminals.emplace("case", lex_case);
-	//m_terminals.emplace("default", lex_default);
-	//m_terminals.emplace("exception", lex_exception);
-	//m_terminals.emplace("remark", lex_remark);//				??????? (<<<REMARK>>>)
-	//m_terminals.emplace("begin", lex_begin);
-	//m_terminals.emplace("end", lex_end);
-	//m_terminals.emplace("scalarprod", lex_scalarprod);
-	//m_terminals.emplace("subvec", lex_subvec);
-	//m_terminals.emplace("shiftr", lex_shiftr);
-	//m_terminals.emplace("shiftl", lex_shiftl);
-	//m_terminals.emplace("at", lex_at);
-	//m_terminals.emplace("conc", lex_conc);
-	//m_terminals.emplace("=", lex_equal_mark);
-	//m_terminals.emplace("variable", lex_variable);//			????
-	//m_terminals.emplace("constant", lex_constant);//			????
-	//m_terminals.emplace("aur_op", lex_aur_op);
-	//m_terminals.emplace("relation", lex_relation);
-	//m_terminals.emplace("EOF", lex_end_mark);
-	//m_terminals.emplace("(", lex_round_bracket_open);
-	//m_terminals.emplace(")", lex_round_bracket_close);
+//m_terminals.emplace(";", lex_semicolon_mark);
+//m_terminals.emplace("dim", lex_dim);
+//m_terminals.emplace("as", lex_as);
+//m_terminals.emplace("int", lex_int);
+//m_terminals.emplace("vec", lex_vec);
+//m_terminals.emplace("set", lex_set);
+//m_terminals.emplace("to", lex_to);
+//m_terminals.emplace("while", lex_while);
+//m_terminals.emplace("do", lex_do);
+//m_terminals.emplace("for", lex_for);
+//m_terminals.emplace("if", lex_if);
+//m_terminals.emplace("then", lex_then);
+//m_terminals.emplace("else", lex_else);
+//m_terminals.emplace("<-", lex_cin_mark);
+//m_terminals.emplace("->", lex_cout_mark);
+//m_terminals.emplace("cin", lex_cin);
+//m_terminals.emplace("cout", lex_cout);
+//m_terminals.emplace("mark", lex_mark); //					???????????????
+//m_terminals.emplace(":", lex_colon_mark);
+//m_terminals.emplace(",", lex_comma_mark);
+//m_terminals.emplace("goto", lex_goto_mark);
+//m_terminals.emplace("switch", lex_switch);
+//m_terminals.emplace("case", lex_case);
+//m_terminals.emplace("default", lex_default);
+//m_terminals.emplace("exception", lex_exception);
+//m_terminals.emplace("remark", lex_remark);//				??????? (<<<REMARK>>>)
+//m_terminals.emplace("begin", lex_begin);
+//m_terminals.emplace("end", lex_end);
+//m_terminals.emplace("scalarprod", lex_scalarprod);
+//m_terminals.emplace("subvec", lex_subvec);
+//m_terminals.emplace("shiftr", lex_shiftr);
+//m_terminals.emplace("shiftl", lex_shiftl);
+//m_terminals.emplace("at", lex_at);
+//m_terminals.emplace("conc", lex_conc);
+//m_terminals.emplace("=", lex_equal_mark);
+//m_terminals.emplace("variable", lex_variable);//			????
+//m_terminals.emplace("constant", lex_constant);//			????
+//m_terminals.emplace("aur_op", lex_aur_op);
+//m_terminals.emplace("relation", lex_relation);
+//m_terminals.emplace("EOF", lex_end_mark);
+//m_terminals.emplace("(", lex_round_bracket_open);
+//m_terminals.emplace(")", lex_round_bracket_close);
 //}
 
 CF_Grammar::CF_Grammar(std::string filename)
@@ -160,7 +159,7 @@ CF_Grammar::CF_Grammar(std::string filename)
 			input_file >> word;
 			current_symbol.m_name = word;
 
-			if (word[0] != '{') 
+			if (word[0] != '{')
 			{
 				current_symbol.m_is_terminal = true;
 				if (!m_terminals.contains(word))
@@ -219,6 +218,13 @@ std::set<Syntactical_Symbol> CF_Grammar::FIRST1(const Syntactical_Symbol& S)
 {
 	std::set<Syntactical_Symbol> seen;
 
+	if (S.m_is_terminal == true && m_terminals.contains(S.m_name))
+	{
+		std::set<Syntactical_Symbol> result;
+		result.insert(S);
+		return result;
+	}
+
 	return FIRST1_REC(S, seen);
 }
 
@@ -249,13 +255,13 @@ Action CF_Grammar::get_action(TableLR1 table, Syntactical_Symbol symbol)
 	for (int i = 0; i < table.m_situations.size(); i++)
 	{
 		//Если символ пустой и после точки ничего нет
-		if ((symbol == m_terminals.contains("epsilon")) && table.m_situations[i].m_rp_after_point.empty())
+		if ((symbol == Syntactical_Symbol(true, "epsilon", -1)) && table.m_situations[i].m_left_part == Syntactical_Symbol(false, "{S'}", 100))
 		{
 			resultAct.act = ACCEPT;
 			return resultAct;
 		}
 		//Если символ равен первому символу справа от точки
-		else if (!table.m_situations[i].m_rp_after_point.empty() && symbol == table.m_situations[i].m_rp_after_point[0])
+		else if (!table.m_situations[i].m_rp_after_point.empty() && symbol == table.m_situations[i].m_rp_after_point[0] && symbol != "epsilon")
 		{
 			resultAct.act = TRANSFER;
 			return resultAct;
@@ -263,19 +269,20 @@ Action CF_Grammar::get_action(TableLR1 table, Syntactical_Symbol symbol)
 		for (int j = 0; j < table.m_situations[i].m_avan_chain.size(); j++)
 		{
 			//Если справа от точки пустой символ, а наш символ из аванцепочки
-			if (table.m_situations[i].m_rp_after_point.empty() && symbol == table.m_situations[i].m_avan_chain[j])
+			if (table.m_situations[i].m_rp_after_point.empty() && (symbol == table.m_situations[i].m_avan_chain[j] || symbol == "epsilon"))
 			{
 				resultAct.act = CONVOLUTION;
 				int rnum = 0;
 				for (auto& it : m_rules)
 				{
-					if (it.second.m_left_part == table.m_situations[0].m_left_part && it.second.m_right_part == table.m_situations[0].m_rp_before_point)
+					if (it.second.m_left_part == table.m_situations[i].m_left_part && it.second.m_right_part == table.m_situations[i].m_rp_before_point)
 					{
 						resultAct.rule_conv.m_left_part = it.second.m_left_part;
 						resultAct.rule_conv.m_right_part = it.second.m_right_part;
 					}
 					rnum++;
 				}
+
 				return resultAct;
 			}
 		}
@@ -301,6 +308,7 @@ void CF_Grammar::GOTO(TableLR1 table, Syntactical_Symbol symbol)
 	}
 	if (newTable.m_situations.size() > 0)
 	{
+		FixGenerateTableLR1(newTable);
 		GenerateTableLR1(newTable);
 	}
 }
@@ -309,21 +317,22 @@ void CF_Grammar::GenerateTableLR1(TableLR1 table)
 {
 	LR1_Situation currSituation;
 	std::set<Syntactical_Symbol> tempAvanChain; //Нужно, чтобы в него записать результат FIRST, чтобы потом перекопировать в настоящую аван-цепочку
-	
+
 	//Создадим начальную таблицу для нетерминала S'
 	if (table.m_situations.empty())
 	{
 		Syntactical_Symbol S(false, "{S'}", 100);
-		currSituation.m_left_part = m_rules.find(S)->second.m_left_part; //DOUBLE CHECK {S'}
+		currSituation.m_left_part = m_rules.find(S)->second.m_left_part;
 		currSituation.m_rp_after_point = m_rules.find(S)->second.m_right_part;
-		//currSituation.m_avan_chain = null
+		currSituation.m_avan_chain.push_back(Syntactical_Symbol(true, "epsilon", -1));
 		table.m_situations.push_back(currSituation);
+		FixGenerateTableLR1(table);
 		GenerateTableLR1(table);
 	}
 	else //остальные случаи 
 	{
 		bool TableChangedFlag = false;
-		for(int i = 0; i < table.m_situations.size(); i++)
+		for (int i = 0; i < table.m_situations.size(); i++)
 		{
 			//Если после точки стоит нетерминальный символ
 			if (!table.m_situations[i].m_rp_after_point.empty() && m_non_terminals.contains(table.m_situations[i].m_rp_after_point[0].m_name))
@@ -335,58 +344,20 @@ void CF_Grammar::GenerateTableLR1(TableLR1 table)
 					{
 						currSituation.m_left_part = it.second.m_left_part;
 						currSituation.m_rp_after_point = it.second.m_right_part;
-						
+
 						//Строим аван-цепочки
 						//Если после точки нет символа, то просто копируем аван-цепочки, иначе берем FIRST от символа 
-						if (table.m_situations[i].m_rp_after_point.empty())
+						if (table.m_situations[i].m_rp_after_point.size() == 1) //changed .empty()
 						{
 							currSituation.m_avan_chain = table.m_situations[i].m_avan_chain;
 						}
 						else
 						{
-							if (table.m_situations[i].m_rp_after_point.size() == 1)
+							tempAvanChain = FIRST1(table.m_situations[i].m_rp_after_point[1]);
+							for (auto& avan_it : tempAvanChain)
 							{
-								bool epsilonFlag = true;
-								Syntactical_Symbol tempSymbol(true, "epsilon", -1);
-								for (auto& rule : m_rules)
-								{
-									for (int r = 0; r < rule.second.m_right_part.size(); r++)
-									{
-										if ((rule.second.m_right_part[r] == it.second.m_left_part) && (rule.second.m_right_part.size() > static_cast<unsigned long long>(r) + 1))
-										{
-											tempSymbol = rule.second.m_right_part[static_cast<std::vector<Syntactical_Symbol, std::allocator<Syntactical_Symbol>>::size_type>(r) + 1];
-											epsilonFlag = false;
-											break;
-										}
-									}
-								}
-								if (!epsilonFlag)
-								{
-									tempAvanChain = FIRST1(tempSymbol);
-									for(auto& avan_it : tempAvanChain)
-									{
-										if (std::find(currSituation.m_avan_chain.begin(), currSituation.m_avan_chain.end(), avan_it) == currSituation.m_avan_chain.end())
-											currSituation.m_avan_chain.push_back(avan_it);
-									}
-									tempAvanChain.clear();
-								}
-							}
-							else
-							{
-								tempAvanChain = FIRST1(table.m_situations[i].m_rp_after_point[1]);
-								for (auto& avan_it : tempAvanChain)
-								{
-									if (std::find(currSituation.m_avan_chain.begin(), currSituation.m_avan_chain.end(), avan_it) == currSituation.m_avan_chain.end())
-										currSituation.m_avan_chain.push_back(avan_it); //Может быть нужно добавлять только новые ?
-								}
-								tempAvanChain.clear();
-							}
-
-							std::vector<Syntactical_Symbol> follow_avan = FOLLOW(it.second.m_left_part);
-							for (int s = 0; s < follow_avan.size(); s++)
-							{
-								if (std::find(currSituation.m_avan_chain.begin(), currSituation.m_avan_chain.end(), follow_avan[s]) == currSituation.m_avan_chain.end())
-									currSituation.m_avan_chain.push_back(follow_avan[s]);
+								if (std::find(currSituation.m_avan_chain.begin(), currSituation.m_avan_chain.end(), avan_it) == currSituation.m_avan_chain.end())
+									currSituation.m_avan_chain.push_back(avan_it); //Может быть нужно добавлять только новые ?
 							}
 						}
 
@@ -411,10 +382,12 @@ void CF_Grammar::GenerateTableLR1(TableLR1 table)
 		}
 		if (TableChangedFlag)
 		{
+			FixGenerateTableLR1(table);
 			GenerateTableLR1(table);
 		}
 		else
 		{
+			FixGenerateTableLR1(table);
 			m_curr_table = table;
 		}
 	}
@@ -486,9 +459,10 @@ void CF_Grammar::PrepareInputWord(const std::list<std::tuple<Lexem, long long in
 			else
 			{
 				std::cout << "SYNTH BLOCK: VARIABLE " << ((Variable*)(std::get<1>(*it)))->name << " DECLARED TWICE" << std::endl;
+				m_synth_error_flag = true;
 				return;
 			}
-			
+
 			break;
 		}
 		case lex_as:
@@ -568,13 +542,14 @@ void CF_Grammar::PrepareInputWord(const std::list<std::tuple<Lexem, long long in
 		}
 		case lex_mark: //метка L:
 		{
-			if(markedStuff.insert(((Variable*)std::get<1>(*it))->name).second)
+			if (markedStuff.insert(((Variable*)std::get<1>(*it))->name).second)
 			{
-				m_input_word.emplace_back(m_terminals["mark"], std::get<2>(*it));
+				m_input_word.emplace_back(m_terminals["mark_goto"], std::get<2>(*it));
 			}
 			else
 			{
 				std::cout << "SYNTH BLOCK: MARK " << ((Variable*)(std::get<1>(*it)))->name << " SET TWICE" << std::endl;
+				m_synth_error_flag = true;
 				return;
 			}
 			break;
@@ -592,7 +567,7 @@ void CF_Grammar::PrepareInputWord(const std::list<std::tuple<Lexem, long long in
 		case lex_goto_mark:
 		{
 			gotoStuff.insert(((Variable*)(std::get<1>(*it)))->name);
-			m_input_word.emplace_back(m_terminals["goto_mark"], std::get<2>(*it));
+			m_input_word.emplace_back(m_terminals["goto"], std::get<2>(*it));
 			break;
 		}
 		case lex_switch:
@@ -674,6 +649,7 @@ void CF_Grammar::PrepareInputWord(const std::list<std::tuple<Lexem, long long in
 			else
 			{
 				std::cout << "SYNTH BLICK: ERROR! VARIABLE " << ((Variable*)(std::get<1>(*it)))->name << " IS NOT INITIALIZED!" << std::endl;
+				m_synth_error_flag = true;
 				return;
 			}
 			break;
@@ -708,7 +684,7 @@ void CF_Grammar::PrepareInputWord(const std::list<std::tuple<Lexem, long long in
 		case lex_error:
 		{
 			std::cout << "SYNTH BLOCK: ERROR! (in prepareInputWord function" << std::endl;
-			//m_error_flag = true;
+			m_synth_error_flag = true;
 			return;
 			break;
 		}
@@ -735,6 +711,7 @@ void CF_Grammar::PrepareInputWord(const std::list<std::tuple<Lexem, long long in
 		if (markedStuff.find(it) == markedStuff.end())
 		{
 			std::cout << "SYNTH BLOCK: MARK " << it << " HADNT BEEN SET" << std::endl;
+			m_synth_error_flag = true;
 			return;
 		}
 	}
@@ -742,16 +719,44 @@ void CF_Grammar::PrepareInputWord(const std::list<std::tuple<Lexem, long long in
 
 void CF_Grammar::synt_parse()
 {
+	if (m_synth_error_flag)
+		return;
+
 	Action currentActionMain;
 	GenerateTableLR1(m_curr_table);
+	FixGenerateTableLR1(m_curr_table);
 	m_magazine.emplace_back(Syntactical_Symbol(true, "epsilon", -1), m_curr_table);
 	auto it = m_input_word.begin();
 	while (it != m_input_word.end())
 	{
 		Action currAction = get_action(m_curr_table, std::get<0>(*it));
+
+		//Печать для дебага:
+		if (currAction.act == CONVOLUTION)
+		{
+			std::cout << std::endl << "Current Symbol: " << std::get<0>(*it).m_name << "  Current Action: " << m_ActionListStr[currAction.act] << " by rule: ";
+			print_rule(currAction.rule_conv);
+			std::cout << "  CurrentTable Situation = " << m_curr_table.m_situations.size() << std::endl;
+		}
+		else
+		{
+			std::cout << std::endl << "Current Symbol: " << std::get<0>(*it).m_name << "  Current Action: " << m_ActionListStr[currAction.act];
+			std::cout << "  CurrentTable Situation = " << m_curr_table.m_situations.size() << std::endl;
+		}
+		std::cout << "Current Table: " << std::endl;
+		for (int i = 0; i < m_curr_table.m_situations.size(); i++)
+		{
+			std::cout << std::endl;
+			print_situation(m_curr_table.m_situations[i]);
+			std::cout << std::endl;
+		}
+		std::cout << std::endl;
+		//Конец печати для дебага
+
 		if (currAction.act == TRANSFER)
 		{
 			GOTO(m_curr_table, std::get<0>(*it));
+			//FixGenerateTableLR1(m_curr_table);
 			m_magazine.emplace_back(std::get<0>(*it), m_curr_table);
 			++it;
 		}
@@ -760,6 +765,7 @@ void CF_Grammar::synt_parse()
 			m_magazine.resize(m_magazine.size() - currAction.rule_conv.m_right_part.size());
 			m_curr_table = m_magazine.back().second;
 			GOTO(m_curr_table, currAction.rule_conv.m_left_part);
+			//FixGenerateTableLR1(m_curr_table);
 			m_magazine.emplace_back(currAction.rule_conv.m_left_part, m_curr_table);
 		}
 		else if (currAction.act == ERROR)
@@ -771,15 +777,28 @@ void CF_Grammar::synt_parse()
 		currentActionMain.act = currAction.act;
 		currentActionMain.rule_conv = currAction.rule_conv;
 	}
+	
+	//свернем mark_end
+	it--;
+	Action currAction = get_action(m_curr_table, std::get<0>(*it));
+	if (currAction.act == TRANSFER)
+	{
+		GOTO(m_curr_table, std::get<0>(*it));
+		//FixGenerateTableLR1(m_curr_table);
+		m_magazine.emplace_back(std::get<0>(*it), m_curr_table);
+		++it;
+	}
 
+	//свернем остальное
 	if (currentActionMain.act != ERROR)
 	{
 		while (true)
 		{
-			Action currAction = get_action(m_curr_table, std::get<0>(*it));
+			Action currAction = get_action(m_curr_table, Syntactical_Symbol(true, "epsilon", -1));
 			if (currAction.act == TRANSFER)
 			{
 				GOTO(m_curr_table, std::get<0>(*it));
+				//FixGenerateTableLR1(m_curr_table);
 				m_magazine.emplace_back(std::get<0>(*it), m_curr_table);
 				++it;
 			}
@@ -788,6 +807,7 @@ void CF_Grammar::synt_parse()
 				m_magazine.resize(m_magazine.size() - currAction.rule_conv.m_right_part.size());
 				m_curr_table = m_magazine.back().second;
 				GOTO(m_curr_table, currAction.rule_conv.m_left_part);
+				//FixGenerateTableLR1(m_curr_table);
 				m_magazine.emplace_back(currAction.rule_conv.m_left_part, m_curr_table);
 			}
 			else if (currAction.act == ACCEPT)
@@ -799,6 +819,52 @@ void CF_Grammar::synt_parse()
 			{
 				std::cout << "SYNTH BLOCK: ERROR IN STR: " << std::get<1>(*it) << std::endl;
 				break;
+			}
+		}
+	}
+}
+
+void CF_Grammar::print_situation(LR1_Situation sit)
+{
+	std::cout << '[' << sit.m_left_part.m_name << " -> ";
+	for (int i = 0; i < sit.m_rp_before_point.size(); i++)
+		std::cout << sit.m_rp_before_point[i].m_name << ' ';
+	std::cout << ".";
+	for (int i = 0; i < sit.m_rp_after_point.size(); i++)
+		std::cout << sit.m_rp_after_point[i].m_name << ' ';
+	std::cout << ",";
+	for (int i = 0; i < sit.m_avan_chain.size(); i++)
+		std::cout << sit.m_avan_chain[i].m_name << "|";
+	if (sit.m_avan_chain.empty())
+		std::cout << "EPSILON";
+	std::cout << ']';
+}
+
+void CF_Grammar::print_rule(Grammar_rule rule)
+{
+	std::cout << rule.m_left_part.m_name << " -> ";
+	for (int i = 0; i < rule.m_right_part.size(); i++)
+		std::cout << rule.m_right_part[i].m_name;
+}
+
+void CF_Grammar::FixGenerateTableLR1(TableLR1& table)
+{
+	TableLR1 tempTable;
+	for (auto it1 = table.m_situations.begin(); it1 != table.m_situations.end(); it1++)
+	{
+		for (auto it2 = table.m_situations.begin(); it2 != table.m_situations.end(); it2++)
+		{
+			if ((*it1).m_left_part == (*it2).m_left_part && (*it1).m_rp_before_point == (*it2).m_rp_before_point)
+			{
+				if ((*it1).m_rp_after_point == (*it2).m_rp_after_point && (*it1).m_avan_chain != (*it2).m_avan_chain)
+				{
+					for (int s = 0; s < (*it2).m_avan_chain.size(); s++)
+					{
+						if (std::find((*it1).m_avan_chain.begin(), (*it1).m_avan_chain.end(), (*it2).m_avan_chain[s]) == (*it1).m_avan_chain.end())
+							(*it1).m_avan_chain.push_back((*it2).m_avan_chain[s]);
+					}
+					table.m_situations.erase(it2--);
+				}
 			}
 		}
 	}

@@ -211,17 +211,17 @@ struct TableLR1
 class CF_Grammar
 {
 public:
-
 	std::map<std::string, Syntactical_Symbol> m_terminals;
 	std::map<std::string, Syntactical_Symbol> m_non_terminals;
 	std::multimap<Syntactical_Symbol, Grammar_rule> m_rules;
 	std::list<std::pair<Syntactical_Symbol, int>> m_input_word; //lexem list
 	std::vector <std::pair<Syntactical_Symbol, TableLR1>> m_magazine;
 	TableLR1 m_curr_table;
-
+	std::vector<std::string> m_ActionListStr = { "TRANSFER", "CONVOLUTION", "ACCEPT", "ERROR" };
+	bool m_synth_error_flag;
 	CF_Grammar(std::string filename);
 	//~CF_Grammar();
-	
+
 	void Fill_terminal_symbols();
 	void print_rules();
 	size_t get_id(const std::string& symbol);
@@ -236,4 +236,8 @@ public:
 	void PrepareInputWord(const std::list<std::tuple<Lexem, long long int, int>>& lexem_list);
 	void synt_parse();
 	/////////////////////////
+
+	void print_situation(LR1_Situation sit);
+	void print_rule(Grammar_rule rule);
+	void FixGenerateTableLR1(TableLR1& table);
 };

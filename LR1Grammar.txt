@@ -2,7 +2,7 @@
 {S} {DECL} 
 {DECL} {DECL1} {DECL}
 {DECL} {PROG}
-{DECL} dim variable as {TYPE} ;
+{DECL1} dim variable as {TYPE} ;
 {TYPE} int
 {TYPE} vec
 {PROG} {OPER} {PROG}
@@ -30,8 +30,8 @@
 {OPER} {COUTLIST} cout ;
 {COUTLIST} {E} -> {COUTLIST}
 {COUTLIST} {E} ->
-{OPER} mark_goto :
-{OPER} goto mark_goto ;
+{OPER} mark_goto
+{OPER} goto ;
 {OPER} switch ( {E} ) {SLIST}
 {SLIST} {CASE} {SLIST}
 {SLIST} {DEFAULT}
@@ -43,13 +43,21 @@
 {OPER} exception ;
 {OPER} remark
 {OPER} begin {PROG} end ;
-{E} {E} + {T}
-{E} {E} - {T}
+
 {E} {T}
-{T} {T} * {F}
-{T} {T} / {F}
-{T} {T} % {F}
+{E} {T} {E'}
+{E'} + {T} {E'}
+{E'} - {T} {E'}
+{E'} + {T}
+{E'} - {T}
 {T} {F}
+{T} {F} {T'}
+{T'} * {F} {T'}
+{T'} / {F} {T'}
+{T'} % {F} {T'}
+{T'} * {F}
+{T'} / {F}
+{T'} % {F} {T'}
 {F} variable
 {F} constant
 {F} ( {E} )

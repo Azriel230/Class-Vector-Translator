@@ -1,31 +1,23 @@
-;
-+ - * / %
-== != < > <= >= 
 dim x as int;
-dim y as vec ;
+dim y as vec;
 dim i as int;
+dim z as int;
+dim vec1 as vec;
+dim vec2 as vec;
+dim vec3 as vec;
+dim vec4 as vec;
 set x to (7);
-set y to[1 2 3];
-set a,b,c to 12;
-while(x<10)do begin x+1 end;
-for i = 1 to 10 do begin x+1 end;
-if(x+y)>z  ;  iffor1
-then ; else;
-x1<-x2<- x3 <-cin;
-y1->5->cout;
+set y to [1 2 3];
+set x,i to 12;
+while x<10 do begin set x to x + 1; end;
+for i = 1 to 100 do ;
+if x + y > z then ; else ;
+if x + y > z then ;
+x <- i <- z <- cin;
+y -> 10 -> [1 2 3] -> cout;
 ab1:
-goto ab1;
-switch(a%3) case 1, 2, 3: begin b+1 end; default: ;
+goto ab1 ;
+switch(x + 3) case 1, 2, 3: begin set x to x + 1; end; default: ; end switch ;
 exception;
 <<<hello world $&>>>
-scalarprod(vec1, vec2);
-at(vec1, 3+5);
-conc(Vec3, Vec4);
-shiftr(vec1, 4);
-shiftl(vec2, 4);
-subvec(Vec, 2, 5);
-
-
-
-Баг: у {TYPE} не вычислились аван-цепочки!
-У {DECL} нет аван-цепочки тоже, надо искать баг. 
+scalarprod(vec1, vec2) -> at(vec1, 3+5) -> conc(vec3, vec4) -> shiftr(vec1, 4) -> shiftl(vec2, 4) -> subvec(vec4, 2, 5) -> cout;

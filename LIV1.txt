@@ -1,1 +1,3 @@
-while 2 > 3 do ;
+dim x as int;
+dim y as vec;
+set x to x / y;
