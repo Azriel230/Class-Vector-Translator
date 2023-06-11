@@ -1,4 +1,61 @@
-{S} dim V as int
-{S} set V to {E}
-{S} {E} aboba
-{E} if abrakadabra
+{S'} {S}
+{S} {DECL} 
+{DECL} {DECL1} {DECL}
+{DECL} {PROG}
+{DECL} dim variable as {TYPE} ;
+{TYPE} int
+{TYPE} vec
+{PROG} {OPER} {PROG}
+{PROG} {OPER}
+{OPER} ;
+{OPER} mark_end
+{OPER} set variable {VLIST} {E} ;
+{VLIST} , variable {VLIST}
+{VLIST} to
+{OPER} while {TEST} do {OPER}
+{TEST} {E} {REL} {E}
+{REL} <
+{REL} >
+{REL} <=
+{REL} >=
+{REL} ==
+{REL} !=
+{OPER} for variable = {E} to {E} do {OPER}
+{OPER} if {TEST} then {ELSE}
+{ELSE} {OPER} else {OPER}
+{ELSE} {OPER}
+{OPER} {CINLIST} cin ;
+{CINLIST} variable <- {CINLIST}
+{CINLIST} variable <-
+{OPER} {COUTLIST} cout ;
+{COUTLIST} {E} -> {COUTLIST}
+{COUTLIST} {E} ->
+{OPER} mark_goto :
+{OPER} goto mark_goto ;
+{OPER} switch ( {E} ) {SLIST}
+{SLIST} {CASE} {SLIST}
+{SLIST} {DEFAULT}
+{SLIST} end switch ;
+{CASE} case constant {CLIST}
+{CLIST} , constant {CLIST}
+{CLIST} : {OPER}
+{DEFAULT} default : {OPER} end switch ;
+{OPER} exception ;
+{OPER} remark
+{OPER} begin {PROG} end ;
+{E} {E} + {T}
+{E} {E} - {T}
+{E} {T}
+{T} {T} * {F}
+{T} {T} / {F}
+{T} {T} % {F}
+{T} {F}
+{F} variable
+{F} constant
+{F} ( {E} )
+{F} scalarprod ( {E} , {E} )
+{F} at ( {E} , {E} )
+{F} conc ( {E} , {E} )
+{F} shiftr ( {E} , {E} )
+{F} shiftl ( {E} , {E} )
+{F} subvec ( {E} , {E} , {E} )

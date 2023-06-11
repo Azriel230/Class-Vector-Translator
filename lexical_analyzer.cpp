@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include "vector.h"
 #include <fstream>
@@ -7,99 +8,106 @@
 #include <list>
 #include <tuple>
 #include <stack>
+#include "CF_Grammar_LR1.h"
 
-// Перечисление содержит константы для обозначения классов символьных лексем: БУКВА, ЦИФРА, АР_ОП, ОТНОШ, ПРОБЕЛ, LF, ;, :, ,, [, ], (, ), -, ОШИБКА, КОНЕЦ.
-enum SymbolicTokenClass {	Letter,
-							Digit,
-							Aur_OP,
-							Relation, 
-							Space, 
-							LF, 
-							Semicolon, 
-							Colon, 
-							Comma, 
-							OpenSquareBracket, 
-							CloseSquareBracket, 
-							OpenRoundBracket,
-							CloseRoundBracket,
-							Error, 
-							EndOfFile	};
-
-// Перечисление содержит константы для обозначения состояний автомата и одну дополнительную константу s_Stop.
-enum States {	s_start_lex,
-				s_read_keyword,
-				s_read_rel,
-				s_variable,
-				s_constant,
-				s_cr_rel,
-				s_const_vec1,
-				s_const_vec2,
-				s_cout_mark1,
-				s_remark1,
-				s_remark2,
-				s_error1,
-				s_kw_var,
-				s_kw_var_bracket,
-				s_kw_var_default,
-				s_goto_space,
-				s_goto_mark1,
-				s_goto_mark2,
-				s_kw_var_bracket2,
-				s_kw_var_to,
-				s_arif,
-				s_STOP	};
-
-enum Lexem {	lex_semicolon_mark,
-				lex_dim,
-				lex_as,
-				lex_int,
-				lex_vec,
-				lex_set,
-				lex_to,
-				lex_while,
-				lex_do,
-				lex_for,
-				lex_if,
-				lex_then,
-				lex_else,
-				lex_cin_mark,
-				lex_cout_mark,
-				lex_cin,
-				lex_cout,
-				lex_mark,
-				lex_colon_mark,
-				lex_comma_mark,
-				lex_goto_mark,
-				lex_switch,
-				lex_case,
-				lex_default,
-				lex_exception,
-				lex_remark,
-				lex_begin,
-				lex_end,
-				lex_scalarprod,
-				lex_subvec,
-				lex_shiftr,
-				lex_shiftl,
-				lex_at,
-				lex_conc,
-				lex_equal_mark,
-				lex_variable,
-				lex_constant,
-				lex_aur_op,
-				lex_relation,
-				lex_error,
-				lex_end_mark,
-				lex_round_bracket_open,
-				lex_round_bracket_close	};
-
-struct Variable
-{
-	std::string name;
-	int type; //0 - int; 1 - vec; -1 - mark
-	int integer_value;
-	Vector vector_value;
-};
+//// Перечисление содержит константы для обозначения классов символьных лексем: БУКВА, ЦИФРА, АР_ОП, ОТНОШ, ПРОБЕЛ, LF, ;, :, ,, [, ], (, ), -, ОШИБКА, КОНЕЦ.
+//enum SymbolicTokenClass {
+//	Letter,
+//	Digit,
+//	Aur_OP,
+//	Relation,
+//	Space,
+//	LF,
+//	Semicolon,
+//	Colon,
+//	Comma,
+//	OpenSquareBracket,
+//	CloseSquareBracket,
+//	OpenRoundBracket,
+//	CloseRoundBracket,
+//	Error,
+//	EndOfFile
+//};
+//
+//// Перечисление содержит константы для обозначения состояний автомата и одну дополнительную константу s_Stop.
+//enum States {
+//	start_lex,
+//	read_keyword,
+//	read_rel,
+//	variable,
+//	constant,
+//	cr_rel,
+//	const_vec1,
+//	const_vec2,
+//	cout_mark1,
+//	remark1,
+//	remark2,
+//	error1,
+//	kw_var,
+//	kw_var_bracket,
+//	kw_var_default,
+//	goto_space,
+//	goto_mark1,
+//	goto_mark2,
+//	kw_var_bracket2,
+//	kw_var_to,
+//	arif,
+//	s_STOP
+//};
+//
+//enum Lexem {
+//	lex_semicolon_mark,
+//	lex_dim,
+//	lex_as,
+//	lex_int,
+//	lex_vec,
+//	lex_set,
+//	lex_to,
+//	lex_while,
+//	lex_do,
+//	lex_for,
+//	lex_if,
+//	lex_then,
+//	lex_else,
+//	lex_cin_mark,
+//	lex_cout_mark,
+//	lex_cin,
+//	lex_cout,
+//	lex_mark,
+//	lex_colon_mark,
+//	lex_comma_mark,
+//	lex_goto_mark,
+//	lex_switch,
+//	lex_case,
+//	lex_default,
+//	lex_exception,
+//	lex_remark,
+//	lex_begin,
+//	lex_end,
+//	lex_scalarprod,
+//	lex_subvec,
+//	lex_shiftr,
+//	lex_shiftl,
+//	lex_at,
+//	lex_conc,
+//	lex_equal_mark,
+//	lex_variable,
+//	lex_constant,
+//	lex_aur_op,
+//	lex_relation,
+//	lex_error,
+//	lex_end_mark,
+//	lex_round_bracket_open,
+//	lex_round_bracket_close
+//};
+//
+//struct Variable
+//{
+//	std::string name;
+//	int type; //0 - int; 1 - vec; -1 - mark
+//	int integer_value;
+//	Vector vector_value;
+//};
 
 // Структура для представления символьной лексемы.
 struct SymbolicToken
@@ -122,7 +130,6 @@ int reg_value; //Регистр значения. хранит значения лексем
 Vector reg_vector; //Регистр вектора, хранит его значение
 int reg_count_vector = 1; //Регистр количества векторов
 int reg_remark = 0; // Регистр комментария
-
 
 int error_state = 0; //запоминает состояние, вызвавшее ошибку
 int error_symbolic_token_class = 0; //запоминает символ, который вызвал ошибку
@@ -188,7 +195,7 @@ SymbolicToken transliterator(int ch)
 	{
 		s.token_class = Space;
 	}
-	else if (ch == '\n')
+	else if (ch == '\n' || ch == '\r\n')
 	{
 		s.token_class = LF;
 	}
@@ -320,15 +327,15 @@ int err_flag_helpformessage = -1; //-1: Флаг опущен; 1: Флаг поднят для случая 1
 int Error1()
 {
 	//ищем нужное сообщение об ошибочке
-	if (error_state == s_start_lex) //состояние начала считывания лексемы
+	if (error_state == start_lex) //состояние начала считывания лексемы
 	{
 		err_message = "A forbidden character was entered as the first character of a lexem";
 	}
-	else if (error_state == s_read_keyword) //состояние считывания ключевого слова
+	else if (error_state == read_keyword) //состояние считывания ключевого слова
 	{
 		err_message = "An illegal character was encountered while reading a keyword";
 	}
-	else if (error_state == s_read_rel) //состояние считывания отношения
+	else if (error_state == read_rel) //состояние считывания отношения
 	{
 		if (error_symbolic_token_class == Aur_OP)
 		{
@@ -354,11 +361,11 @@ int Error1()
 			err_message = "Invalid character entered in relation lexem";
 		}
 	}
-	else if (error_state == s_variable) //состояние считывания переменной
+	else if (error_state == var) //состояние считывания переменной
 	{
 		err_message = "Invalid character entered in variable lexem";
 	}
-	else if (error_state == s_constant) //состояние считывания константы
+	else if (error_state == constant) //состояние считывания константы
 	{
 		if (error_symbolic_token_class == Letter)
 		{
@@ -369,63 +376,63 @@ int Error1()
 			err_message = "Invalid character entered in constant lexem";
 		}
 	}
-	else if (error_state == s_cr_rel) //состояние создания лексемы отношения
+	else if (error_state == cr_rel) //состояние создания лексемы отношения
 	{
 		err_message = "Invalid character entered after relation lexem";
 	}
-	else if (error_state == s_const_vec1) //состояние, в котором считывается первая цифра каждой координаты вектора
+	else if (error_state == const_vec1) //состояние, в котором считывается первая цифра каждой координаты вектора
 	{
 		err_message = "Invalid character entered in start const_vector lexem. Expected: digit";
 	}
-	else if (error_state == s_const_vec2) //состояние, в котором считывается координата вектора
+	else if (error_state == const_vec2) //состояние, в котором считывается координата вектора
 	{
 		err_message = "Invalid character entered in coordinate of const_vector lexem. Expected: digit or space-char or ] ";
 	}
-	else if (error_state == s_cout_mark1) //состояние, в котором отслеживается правильный ввод символа вывода
+	else if (error_state == cout_mark1) //состояние, в котором отслеживается правильный ввод символа вывода
 	{
 		err_message = "Invalid character entered in cout_mark lexem. Expected: > ";
 	}
-	else if (error_state == s_remark1) //состояние, в котором отслеживается правильный ввод символа начала комментария
+	else if (error_state == remark1) //состояние, в котором отслеживается правильный ввод символа начала комментария
 	{
 		err_message = "Invalid character entered in start_comment_mark symbols. Expected: < ";
 	}
-	else if (error_state == s_remark2) //состояние считывания комментария
+	else if (error_state == remark2) //состояние считывания комментария
 	{
 		err_message = "File ended before closing remark";
 	}
-	else if (error_state == s_kw_var) //состояние считывания символа после ключевого слова
+	else if (error_state == kw_var) //состояние считывания символа после ключевого слова
 	{
 		err_message = "Invalid character entered after keyword. Expected: letter, digit, space, lf or ; ";
 	}
-	else if (error_state == s_kw_var_bracket) //состояние считывания символа после ключевого слова (скобка)
+	else if (error_state == kw_var_bracket) //состояние считывания символа после ключевого слова (скобка)
 	{
 		err_message = "Invalid character entered after keyword. Expected: letter, digit, lf or ( ";
 	}
-	else if (error_state == s_kw_var_default) //состояние считывания символа после ключевого слова default (:)
+	else if (error_state == kw_var_default) //состояние считывания символа после ключевого слова default (:)
 	{
 		err_message = "Invalid character entered after default. Expected: letter, digit, lf or : ";
 	}
-	else if (error_state == s_goto_space) //состояние считывания символа после ключевого слова goto (пробел)
+	else if (error_state == goto_space) //состояние считывания символа после ключевого слова goto (пробел)
 	{
 		err_message = "Invalid character entered after goto. Expected: letter, digit or space";
 	}
-	else if (error_state == s_goto_mark1) //состояние, в котором нужно считать первую букву метки
+	else if (error_state == goto_mark1) //состояние, в котором нужно считать первую букву метки
 	{
 		err_message = "Invalid character entered at start of mark-name .Expected: letter";
 	}
-	else if (error_state == s_goto_mark2) //состояние, в котором нужно считать имя метки
+	else if (error_state == goto_mark2) //состояние, в котором нужно считать имя метки
 	{
 		err_message = "Invalid character entered at start of mark-name .Expected: letter, digit, space, lf or ; ";
 	}
-	else if (error_state == s_kw_var_bracket2) //состояние считывания символа после ключевого слова (скобка)
+	else if (error_state == kw_var_bracket2) //состояние считывания символа после ключевого слова (скобка)
 	{
 		err_message = "Invalid character entered after keyword. Expected: letter, digit, lf or ( ";
 	}
-	else if (error_state == s_kw_var_to) //состояние считывания символа после ключевого слова to
+	else if (error_state == kw_var_to) //состояние считывания символа после ключевого слова to
 	{
 		err_message = "Invalid character entered after to. Expected: letter, digit, lf, [ or ( ";
 	}
-	else if (error_state == s_arif)
+	else if (error_state == arif)
 	{
 		if (error_symbolic_token_class == Aur_OP)
 		{
@@ -447,10 +454,10 @@ int Error1()
 		reg_line_num++;
 		err_flag_lf = 0;
 		err_flag = 1;
-		return s_start_lex;
+		return start_lex;
 	}
 	err_flag = 1;
-	return s_error1;
+	return error1;
 }
 
 
@@ -505,7 +512,7 @@ void add_constant()
 
 void add_variable()
 {
-	if (reg_var_name == "dim" || reg_var_name == "as" || reg_var_name == "int" || reg_var_name == "vec" || reg_var_name == "set" || reg_var_name == "to")
+	if (reg_var_name == "lex_dim" || reg_var_name == "lex_as" || reg_var_name == "int" || reg_var_name == "vec" || reg_var_name == "set" || reg_var_name == "to")
 	{
 		Error1();
 		return;
@@ -551,7 +558,7 @@ void add_variable()
 
 void add_mark()
 {
-	if (reg_var_name == "dim" || reg_var_name == "as" || reg_var_name == "int" || reg_var_name == "vec" || reg_var_name == "set" || reg_var_name == "to")
+	if (reg_var_name == "lex_dim" || reg_var_name == "as" || reg_var_name == "int" || reg_var_name == "vec" || reg_var_name == "set" || reg_var_name == "to")
 	{
 		Error1();
 		return;
@@ -599,30 +606,30 @@ void add_mark()
 
 int start_lex_Space()
 {
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_LF()
 {
 	reg_line_num++;
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrEmpty()
 {
 	reg_class = lex_semicolon_mark;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrRoundBracket1()
 {
 	reg_class = lex_round_bracket_open;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrRoundBracket2()
 {
 	reg_class = lex_round_bracket_close;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int cr_rel_Rem()
 {
@@ -650,13 +657,13 @@ int cr_rel_Rem()
 			return Error1();
 		}
 		create_lexem();
-		return s_cr_rel;
+		return cr_rel;
 	}
 	else if (s.value == '<')
 	{
 		if (reg_relation == '<')
 		{
-			return s_remark1;
+			return remark1;
 		}
 		else
 		{
@@ -683,7 +690,7 @@ int start_lex_CrRel()
 	}
 
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrRel_LF()
 {
@@ -702,7 +709,7 @@ int start_lex_CrRel_LF()
 
 	create_lexem();
 	reg_line_num++;
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrRelBracket1()
 {
@@ -724,14 +731,14 @@ int start_lex_CrRelBracket1()
 	reg_class = lex_round_bracket_open;
 	create_lexem();
 
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrVar()
 {
 	reg_class = lex_variable;
 	add_variable();
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrVar_LF()
 {
@@ -739,7 +746,7 @@ int start_lex_CrVar_LF()
 	add_variable();
 	create_lexem();
 	reg_line_num++;
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrVar_Bracket2()
 {
@@ -748,7 +755,7 @@ int start_lex_CrVar_Bracket2()
 	create_lexem();
 	reg_class = lex_round_bracket_close;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrConst_Bracket2()
 {
@@ -757,7 +764,7 @@ int start_lex_CrConst_Bracket2()
 	create_lexem();
 	reg_class = lex_round_bracket_close;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrVar_Comma()
 {
@@ -766,7 +773,7 @@ int start_lex_CrVar_Comma()
 	create_lexem();
 	reg_class = lex_comma_mark;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrConst_Comma()
 {
@@ -775,7 +782,7 @@ int start_lex_CrConst_Comma()
 	create_lexem();
 	reg_class = lex_comma_mark;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrConst()
 {
@@ -783,7 +790,7 @@ int start_lex_CrConst()
 	const_flag = 1;
 	add_constant();
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrConst_LF()
 {
@@ -792,34 +799,34 @@ int start_lex_CrConst_LF()
 	add_constant();
 	create_lexem();
 	reg_line_num++;
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrLex() //после отношения просто перейти на старт
 {
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrLex_LF() //после отношения увеличить к-во строк на 1 и перейти на старт
 {
 	reg_line_num++;
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrKW()
 {
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrKW_LF()
 {
 	create_lexem();
 	reg_line_num++;
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrKWEmpty()
 {
 	create_lexem();
 	reg_class = lex_semicolon_mark;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrConstColon()
 {
@@ -828,7 +835,7 @@ int start_lex_CrConstColon()
 	create_lexem();
 	reg_class = lex_colon_mark;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrVarEmpty()
 {
@@ -837,7 +844,7 @@ int start_lex_CrVarEmpty()
 	create_lexem();
 	reg_class = lex_semicolon_mark;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrConstEmpty()
 {
@@ -846,7 +853,7 @@ int start_lex_CrConstEmpty()
 	create_lexem();
 	reg_class = lex_semicolon_mark;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int arif_CrVarArif() //////////////////////////////////////////
 {
@@ -855,7 +862,7 @@ int arif_CrVarArif() //////////////////////////////////////////
 	create_lexem();
 	reg_class = lex_aur_op;
 	reg_value = s.value;
-	return s_arif;
+	return arif;
 }
 int read_rel_CrVarRel()
 {
@@ -864,7 +871,7 @@ int read_rel_CrVarRel()
 	create_lexem();
 	reg_class = lex_relation;
 	reg_relation = s.value;
-	return s_read_rel;
+	return read_rel;
 }
 int read_keyword_CrRel()
 {
@@ -888,9 +895,9 @@ int read_keyword_CrRel()
 		reg_detection = beg_vector[s.value - (size_t)97];
 	if (reg_detection == 0)
 	{
-		return s_variable;
+		return var;
 	}
-	return s_read_keyword;
+	return read_keyword;
 }
 int constant_CrRel()
 {
@@ -911,7 +918,7 @@ int constant_CrRel()
 	const_flag = 1;
 	vector_flag = 0;
 	reg_number = s.value;
-	return s_constant;
+	return constant;
 }
 int arif_CrConstArif() ////////////
 {
@@ -922,7 +929,7 @@ int arif_CrConstArif() ////////////
 
 	reg_class = lex_aur_op;
 	reg_value = s.value;
-	return s_arif;
+	return arif;
 }
 int read_rel_CrConstRel()
 {
@@ -933,61 +940,61 @@ int read_rel_CrConstRel()
 
 	reg_class = lex_relation;
 	reg_relation = s.value;
-	return s_read_rel;
+	return read_rel;
 }
 int kw_var_bracket_CrSw()
 {
 	reg_class = lex_switch;
-	return s_kw_var_bracket;
+	return kw_var_bracket;
 }
 int kw_var_default_CrDefault()
 {
 	reg_class = lex_default;
-	return s_kw_var_default;
+	return kw_var_default;
 }
 int kw_var_bracket_CrScalarProd()
 {
 	reg_class = lex_scalarprod;
-	return s_kw_var_bracket;
+	return kw_var_bracket;
 }
 int kw_var_bracket_CrSubvec()
 {
 	reg_class = lex_subvec;
-	return s_kw_var_bracket;
+	return kw_var_bracket;
 }
 int kw_var_bracket_CrShiftR()
 {
 	reg_class = lex_shiftr;
-	return s_kw_var_bracket;
+	return kw_var_bracket;
 }
 int kw_var_bracket_CrShiftL()
 {
 	reg_class = lex_shiftl;
-	return s_kw_var_bracket;
+	return kw_var_bracket;
 }
 int kw_var_bracket_CrAt()
 {
 	reg_class = lex_at;
-	return s_kw_var_bracket;
+	return kw_var_bracket;
 }
 int kw_var_bracket_CrConc()
 {
 	reg_class = lex_conc;
-	return s_kw_var_bracket;
+	return kw_var_bracket;
 }
 int start_lex_CrLex_Colon()
 {
 	create_lexem();
 	reg_class = lex_colon_mark;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrLex_Bracket1()
 {
 	create_lexem();
 	reg_class = lex_round_bracket_open;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int read_keyword_A()
 {
@@ -997,25 +1004,25 @@ int read_keyword_A()
 		reg_detection = beg_vector[s.value - (size_t)97];
 	if (reg_detection == 0)
 	{
-		return s_variable;
+		return var;
 	}
-	return s_read_keyword;
+	return read_keyword;
 }
 int read_keyword_B()
 {
 	reg_detection++;
-	return s_read_keyword;
+	return read_keyword;
 }
 int read_rel_A()
 {
 	reg_class = lex_relation;
 	reg_relation = s.value;
-	return s_read_rel;
+	return read_rel;
 }
 int variable_A()
 {
 	reg_var_name = (s.value);
-    return s_variable;
+	return var;
 }
 int variable_B()
 {
@@ -1023,26 +1030,26 @@ int variable_B()
 		reg_var_name += ITOA(s.value);
 	else
 		reg_var_name += s.value;
-	return s_variable;
+	return var;
 }
 int constant_A()
 {
 	const_flag = 1;
 	vector_flag = 0;
 	reg_number = s.value;
-	return s_constant;
+	return constant;
 }
 int constant_B()
 {
 	reg_number = 10 * reg_number + s.value;
-	return s_constant;
+	return constant;
 }
 int arif_CrArif()
 {
 	reg_class = lex_aur_op;
 	reg_value = s.value;
 	//create_lexem();
-	return s_arif;
+	return arif;
 }
 int read_keyword_CrArif()
 {
@@ -1053,9 +1060,9 @@ int read_keyword_CrArif()
 		reg_detection = beg_vector[s.value - (size_t)97];
 	if (reg_detection == 0)
 	{
-		return s_variable;
+		return var;
 	}
-	return s_read_keyword;
+	return read_keyword;
 }
 int constant_CrArif()
 {
@@ -1063,25 +1070,25 @@ int constant_CrArif()
 	const_flag = 1;
 	vector_flag = 0;
 	reg_number = s.value;
-	return s_constant;
+	return constant;
 }
 int start_lex_CrArif()
 {
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrArif_LF()
 {
 	create_lexem();
 	reg_line_num++;
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrArif_CrRBracket1()
 {
 	create_lexem();
 	reg_class = lex_round_bracket_open;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrCoutMark()
 {
@@ -1089,7 +1096,7 @@ int start_lex_CrCoutMark()
 	{
 		reg_class = lex_cout_mark;
 		create_lexem();
-		return s_start_lex;
+		return start_lex;
 	}
 	else
 		return Error1();
@@ -1098,27 +1105,27 @@ int start_lex_CrColon()
 {
 	reg_class = lex_colon_mark;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrComma()
 {
 	reg_class = lex_comma_mark;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrMark()
 {
 	reg_class = lex_mark;
 	add_mark();
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrGTMark()
 {
 	reg_class = lex_goto_mark;
 	add_mark();
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrGTMark_LF()
 {
@@ -1126,7 +1133,7 @@ int start_lex_CrGTMark_LF()
 	add_mark();
 	create_lexem();
 	reg_line_num++;
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrGTMarkEmpty()
 {
@@ -1135,7 +1142,7 @@ int start_lex_CrGTMarkEmpty()
 	create_lexem();
 	reg_class = lex_semicolon_mark;
 	create_lexem();
-	return s_start_lex;
+	return start_lex;
 }
 int start_lex_CrCinMark()
 {
@@ -1143,7 +1150,7 @@ int start_lex_CrCinMark()
 	{
 		reg_class = lex_cin_mark;
 		create_lexem();
-		return s_start_lex;
+		return start_lex;
 	}
 	else
 		return Error1();
@@ -1155,111 +1162,111 @@ int start_lex_CrConstVec()
 	add_constant();
 	create_lexem();
 	reg_vector.Clear();
-	return s_start_lex;
+	return start_lex;
 }
-int kw_var_CrDim()
+int kw_var_Crlex_dim()
 {
 	reg_class = lex_dim;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrAs()
 {
 	reg_class = lex_as;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrInt()
 {
 	reg_class = lex_int;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrVec()
 {
 	reg_class = lex_vec;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrSet()
 {
 	reg_class = lex_set;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_to_CrTo()
 {
 	reg_class = lex_to;
-	return s_kw_var_to;
+	return kw_var_to;
 }
 int kw_var_bracket2_CrWhile()
 {
 	reg_class = lex_while;
-	return s_kw_var_bracket2;
+	return kw_var_bracket2;
 }
 int kw_var_CrDo()
 {
 	reg_class = lex_do;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrFor()
 {
 	reg_class = lex_for;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_bracket2_CrIf()
 {
 	reg_class = lex_if;
-	return s_kw_var_bracket2;
+	return kw_var_bracket2;
 }
 int kw_var_CrThen()
 {
 	reg_class = lex_then;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrElse()
 {
 	reg_class = lex_else;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrCin()
 {
 	reg_class = lex_cin;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrCout()
 {
 	reg_class = lex_cout;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrCase()
 {
 	reg_class = lex_case;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrException()
 {
 	reg_class = lex_exception;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrBegin()
 {
 	reg_class = lex_begin;
-	return s_kw_var;
+	return kw_var;
 }
 int kw_var_CrEnd()
 {
 	reg_class = lex_end;
-	return s_kw_var;
+	return kw_var;
 }
 int goto_space_CrGoto()
 {
 	reg_class = lex_goto_mark;
-	return s_goto_space;
+	return goto_space;
 }
 int goto_mark1_A()
 {
-	return s_goto_mark1;
+	return goto_mark1;
 }
 int goto_mark2_A()
 {
 	reg_var_name = (s.value);
-	return s_goto_mark2;
+	return goto_mark2;
 }
 int goto_mark2_B()
 {
@@ -1267,35 +1274,35 @@ int goto_mark2_B()
 		reg_var_name += ITOA(s.value);
 	else
 		reg_var_name += s.value;
-	return s_goto_mark2;
+	return goto_mark2;
 }
 int const_vec1_A()
 {
 	vector_flag = 1;
 	const_flag = 0;
-	return s_const_vec1;
+	return const_vec1;
 }
 int const_vec2_A()
 {
 	reg_number = s.value;
-	return s_const_vec2;
+	return const_vec2;
 }
 int const_vec2_B()
 {
 	reg_number = 10 * reg_number + s.value;
-	return s_const_vec2;
+	return const_vec2;
 }
 int const_vec1_B()
 {
 	reg_vector.push_back(reg_number);
-	return s_const_vec1;
+	return const_vec1;
 }
 int const_vec1_CrLexTo()
 {
 	create_lexem();
 	vector_flag = 1;
 	const_flag = 0;
-	return s_const_vec1;
+	return const_vec1;
 }
 int cout_mark_A()
 {
@@ -1306,14 +1313,14 @@ int remark2_A() // НУЖНО ПОДУМАТЬ ЧТО ДЕЛАТЬ С НОМЕРОМ СТРОКИ У ЛЕКСЕМЫ КОММЕНТ 
 	if (s.value == '<')
 	{
 		reg_class = lex_remark;
-		return s_remark2;
+		return remark2;
 	}
 	else
 		return Error1();
 }
 int remark2_C()
 {
-	return s_remark2;
+	return remark2;
 }
 int remark2_B()
 {
@@ -1325,18 +1332,18 @@ int remark2_B()
 	if (reg_remark == 3)
 	{
 		create_lexem();
-		return s_start_lex;
+		return start_lex;
 	}
-	return s_remark2;
+	return remark2;
 }
 int remark2_C_LF()
 {
 	reg_line_num++;
-	return s_remark2;
+	return remark2;
 }
 int error1_All()
 {
-	return s_error1;
+	return error1;
 }
 int error1_LF()
 {
@@ -1361,7 +1368,7 @@ int EXIT2()
 	create_lexem();
 	return s_STOP;
 }
-int EXIT3() 
+int EXIT3()
 {
 	reg_class = lex_variable;
 	add_variable();
@@ -1402,7 +1409,7 @@ int Rec_Keyword()
 	if (reg_detection == 0)
 	{
 		reg_var_name += (s.value);
-		return s_variable;
+		return var;
 	}
 	if (s.value == std::get<0>(detect_table[(reg_detection - (size_t)1)]))//
 	{
@@ -1415,7 +1422,7 @@ int Rec_Keyword()
 		if (reg_detection == 0)
 		{
 			reg_var_name += (s.value);
-			return s_variable;
+			return var;
 		}
 		Rec_Keyword();
 	}
@@ -1424,7 +1431,7 @@ int Rec_Keyword()
 void init_detect_table()
 {
 	detect_table[0] = std::tuple<char, int, function_pointer>('i', 15, read_keyword_B);
-	detect_table[1] = std::tuple<char, int, function_pointer>('m', 0, kw_var_CrDim); //dim
+	detect_table[1] = std::tuple<char, int, function_pointer>('m', 0, kw_var_Crlex_dim); //lex_dim
 	detect_table[2] = std::tuple<char, int, function_pointer>('s', 81, kw_var_CrAs); //as
 	detect_table[3] = std::tuple<char, int, function_pointer>('n', 18, read_keyword_B);
 	detect_table[4] = std::tuple<char, int, function_pointer>('t', 0, kw_var_CrInt); //int
@@ -1520,173 +1527,173 @@ void initialize_table()
 
 	// Далее заполняются ячейки для остальных процедур.
 
-	table[s_start_lex][Letter] = read_keyword_A;
-	table[s_start_lex][Digit] = constant_A;
-	table[s_start_lex][Aur_OP] = arif_CrArif; 
-	table[s_start_lex][Relation] = read_rel_A;
-	table[s_start_lex][Space] = start_lex_Space; 
-	table[s_start_lex][LF] = start_lex_LF; 
-	table[s_start_lex][Semicolon] = start_lex_CrEmpty; 
-	table[s_start_lex][Colon] = start_lex_CrColon;
-	table[s_start_lex][Comma] = start_lex_CrComma; 
-	table[s_start_lex][OpenSquareBracket] = const_vec1_A; 
-	table[s_start_lex][OpenRoundBracket] = start_lex_CrRoundBracket1;
-	table[s_start_lex][CloseRoundBracket] = start_lex_CrRoundBracket2;
-	table[s_start_lex][EndOfFile] = EXIT1;
+	table[start_lex][Letter] = read_keyword_A;
+	table[start_lex][Digit] = constant_A;
+	table[start_lex][Aur_OP] = arif_CrArif;
+	table[start_lex][Relation] = read_rel_A;
+	table[start_lex][Space] = start_lex_Space;
+	table[start_lex][LF] = start_lex_LF;
+	table[start_lex][Semicolon] = start_lex_CrEmpty;
+	table[start_lex][Colon] = start_lex_CrColon;
+	table[start_lex][Comma] = start_lex_CrComma;
+	table[start_lex][OpenSquareBracket] = const_vec1_A;
+	table[start_lex][OpenRoundBracket] = start_lex_CrRoundBracket1;
+	table[start_lex][CloseRoundBracket] = start_lex_CrRoundBracket2;
+	table[start_lex][EndOfFile] = EXIT1;
 
-	table[s_read_keyword][Letter] = Rec_Keyword;
-	table[s_read_keyword][Digit] = variable_B;
-	table[s_read_keyword][Aur_OP] = arif_CrVarArif;
-	table[s_read_keyword][Relation] = read_rel_CrVarRel;
-	table[s_read_keyword][Space] = start_lex_CrVar;
-	table[s_read_keyword][LF] = start_lex_CrVar_LF;
-	table[s_read_keyword][Semicolon] = start_lex_CrVarEmpty;
-	table[s_read_keyword][Colon] = start_lex_CrMark;
-	table[s_read_keyword][Comma] = start_lex_CrVar_Comma;
-	table[s_read_keyword][CloseRoundBracket] = start_lex_CrVar_Bracket2;
-	table[s_read_keyword][EndOfFile] = EXIT3;
+	table[read_keyword][Letter] = Rec_Keyword;
+	table[read_keyword][Digit] = variable_B;
+	table[read_keyword][Aur_OP] = arif_CrVarArif;
+	table[read_keyword][Relation] = read_rel_CrVarRel;
+	table[read_keyword][Space] = start_lex_CrVar;
+	table[read_keyword][LF] = start_lex_CrVar_LF;
+	table[read_keyword][Semicolon] = start_lex_CrVarEmpty;
+	table[read_keyword][Colon] = start_lex_CrMark;
+	table[read_keyword][Comma] = start_lex_CrVar_Comma;
+	table[read_keyword][CloseRoundBracket] = start_lex_CrVar_Bracket2;
+	table[read_keyword][EndOfFile] = EXIT3;
 
-	table[s_read_rel][Letter] = read_keyword_CrRel;
-	table[s_read_rel][Digit] = constant_CrRel;
-	table[s_read_rel][Aur_OP] = start_lex_CrCinMark;
-	table[s_read_rel][Relation] = cr_rel_Rem; 
-	table[s_read_rel][Space] = start_lex_CrRel;
-	table[s_read_rel][LF] = start_lex_CrRel_LF; 
-	table[s_read_rel][OpenRoundBracket] = start_lex_CrRelBracket1;
-	table[s_read_rel][EndOfFile] = EXIT2;
+	table[read_rel][Letter] = read_keyword_CrRel;
+	table[read_rel][Digit] = constant_CrRel;
+	table[read_rel][Aur_OP] = start_lex_CrCinMark;
+	table[read_rel][Relation] = cr_rel_Rem;
+	table[read_rel][Space] = start_lex_CrRel;
+	table[read_rel][LF] = start_lex_CrRel_LF;
+	table[read_rel][OpenRoundBracket] = start_lex_CrRelBracket1;
+	table[read_rel][EndOfFile] = EXIT2;
 
-	table[s_variable][Letter] = variable_B;
-	table[s_variable][Digit] = variable_B;
-	table[s_variable][Aur_OP] = arif_CrVarArif;
-	table[s_variable][Relation] = read_rel_CrVarRel;
-	table[s_variable][Space] = start_lex_CrVar;
-	table[s_variable][LF] = start_lex_CrVar_LF;
-	table[s_variable][Semicolon] = start_lex_CrVarEmpty;
-	table[s_variable][Colon] = start_lex_CrMark;
-	table[s_variable][Comma] = start_lex_CrVar_Comma;
-	table[s_variable][CloseRoundBracket] = start_lex_CrVar_Bracket2;
-	table[s_variable][EndOfFile] = EXIT3;
+	table[var][Letter] = variable_B;
+	table[var][Digit] = variable_B;
+	table[var][Aur_OP] = arif_CrVarArif;
+	table[var][Relation] = read_rel_CrVarRel;
+	table[var][Space] = start_lex_CrVar;
+	table[var][LF] = start_lex_CrVar_LF;
+	table[var][Semicolon] = start_lex_CrVarEmpty;
+	table[var][Colon] = start_lex_CrMark;
+	table[var][Comma] = start_lex_CrVar_Comma;
+	table[var][CloseRoundBracket] = start_lex_CrVar_Bracket2;
+	table[var][EndOfFile] = EXIT3;
 
-	table[s_constant][Digit] = constant_B;
-	table[s_constant][Aur_OP] = arif_CrConstArif;
-	table[s_constant][Relation] = read_rel_CrConstRel;
-	table[s_constant][Space] = start_lex_CrConst;
-	table[s_constant][LF] = start_lex_CrConst_LF;
-	table[s_constant][Semicolon] = start_lex_CrConstEmpty;
-	table[s_constant][Colon] = start_lex_CrConstColon;
-	table[s_constant][Comma] = start_lex_CrConst_Comma;
-	table[s_constant][CloseRoundBracket] = start_lex_CrConst_Bracket2;
-	table[s_constant][EndOfFile] = EXIT4;
+	table[constant][Digit] = constant_B;
+	table[constant][Aur_OP] = arif_CrConstArif;
+	table[constant][Relation] = read_rel_CrConstRel;
+	table[constant][Space] = start_lex_CrConst;
+	table[constant][LF] = start_lex_CrConst_LF;
+	table[constant][Semicolon] = start_lex_CrConstEmpty;
+	table[constant][Colon] = start_lex_CrConstColon;
+	table[constant][Comma] = start_lex_CrConst_Comma;
+	table[constant][CloseRoundBracket] = start_lex_CrConst_Bracket2;
+	table[constant][EndOfFile] = EXIT4;
 
-	table[s_cr_rel][Letter] = variable_A;
-	table[s_cr_rel][Digit] = constant_A; 
-	table[s_cr_rel][Space] = start_lex_CrLex;
-	table[s_cr_rel][LF] = start_lex_CrLex_LF; 
-	table[s_cr_rel][OpenRoundBracket] = start_lex_CrRoundBracket1;
-	table[s_cr_rel][EndOfFile] = EXIT1;
+	table[cr_rel][Letter] = variable_A;
+	table[cr_rel][Digit] = constant_A;
+	table[cr_rel][Space] = start_lex_CrLex;
+	table[cr_rel][LF] = start_lex_CrLex_LF;
+	table[cr_rel][OpenRoundBracket] = start_lex_CrRoundBracket1;
+	table[cr_rel][EndOfFile] = EXIT1;
 
-	table[s_const_vec1][Digit] = const_vec2_A;
-	table[s_const_vec1][LF] = error1_LF;
+	table[const_vec1][Digit] = const_vec2_A;
+	table[const_vec1][LF] = error1_LF;
 
-	table[s_const_vec2][Digit] = const_vec2_B;
-	table[s_const_vec2][Space] = const_vec1_B; 
-	table[s_const_vec2][LF] = error1_LF; 
-	table[s_const_vec2][CloseSquareBracket] = start_lex_CrConstVec;
+	table[const_vec2][Digit] = const_vec2_B;
+	table[const_vec2][Space] = const_vec1_B;
+	table[const_vec2][LF] = error1_LF;
+	table[const_vec2][CloseSquareBracket] = start_lex_CrConstVec;
 
-	table[s_cout_mark1][Relation] = start_lex_CrCoutMark;
-	table[s_cout_mark1][LF] = error1_LF;
+	table[cout_mark1][Relation] = start_lex_CrCoutMark;
+	table[cout_mark1][LF] = error1_LF;
 
-	table[s_remark1][Relation] = remark2_A;
-	table[s_remark1][LF] = error1_LF;
+	table[remark1][Relation] = remark2_A;
+	table[remark1][LF] = error1_LF;
 
-	table[s_remark2][Letter] = remark2_C;
-	table[s_remark2][Digit] = remark2_C;
-	table[s_remark2][Aur_OP] = remark2_C;
-	table[s_remark2][Relation] = remark2_B;
-	table[s_remark2][Space] = remark2_C;
-	table[s_remark2][LF] = remark2_C;
-	table[s_remark2][Semicolon] = remark2_C;
-	table[s_remark2][Colon] = remark2_C;
-	table[s_remark2][Comma] = remark2_C;
-	table[s_remark2][OpenSquareBracket] = remark2_C;
-	table[s_remark2][CloseSquareBracket] = remark2_C;
-	table[s_remark2][OpenRoundBracket] = remark2_C;
-	table[s_remark2][CloseRoundBracket] = remark2_C;
-	table[s_remark2][Error] = remark2_C;
-	table[s_remark2][EndOfFile] = EXIT5;
+	table[remark2][Letter] = remark2_C;
+	table[remark2][Digit] = remark2_C;
+	table[remark2][Aur_OP] = remark2_C;
+	table[remark2][Relation] = remark2_B;
+	table[remark2][Space] = remark2_C;
+	table[remark2][LF] = remark2_C;
+	table[remark2][Semicolon] = remark2_C;
+	table[remark2][Colon] = remark2_C;
+	table[remark2][Comma] = remark2_C;
+	table[remark2][OpenSquareBracket] = remark2_C;
+	table[remark2][CloseSquareBracket] = remark2_C;
+	table[remark2][OpenRoundBracket] = remark2_C;
+	table[remark2][CloseRoundBracket] = remark2_C;
+	table[remark2][Error] = remark2_C;
+	table[remark2][EndOfFile] = EXIT5;
 
-	table[s_error1][Letter] = error1_All;
-	table[s_error1][Digit] = error1_All;
-	table[s_error1][Aur_OP] = error1_All;
-	table[s_error1][Relation] = error1_All;
-	table[s_error1][Space] = start_lex_Space;
-	table[s_error1][LF] = start_lex_LF;
-	table[s_error1][Semicolon] = error1_All;
-	table[s_error1][Colon] = error1_All;
-	table[s_error1][Comma] = error1_All;
-	table[s_error1][OpenSquareBracket] = error1_All;
-	table[s_error1][CloseSquareBracket] = error1_All;
-	table[s_error1][OpenRoundBracket] = error1_All;
-	table[s_error1][CloseRoundBracket] = error1_All;
-	table[s_error1][Error] = error1_All;
-	table[s_error1][EndOfFile] = EXIT1;
+	table[error1][Letter] = error1_All;
+	table[error1][Digit] = error1_All;
+	table[error1][Aur_OP] = error1_All;
+	table[error1][Relation] = error1_All;
+	table[error1][Space] = start_lex_Space;
+	table[error1][LF] = start_lex_LF;
+	table[error1][Semicolon] = error1_All;
+	table[error1][Colon] = error1_All;
+	table[error1][Comma] = error1_All;
+	table[error1][OpenSquareBracket] = error1_All;
+	table[error1][CloseSquareBracket] = error1_All;
+	table[error1][OpenRoundBracket] = error1_All;
+	table[error1][CloseRoundBracket] = error1_All;
+	table[error1][Error] = error1_All;
+	table[error1][EndOfFile] = EXIT1;
 
-	table[s_kw_var][Letter] = variable_B;
-	table[s_kw_var][Digit] = variable_B;
-	table[s_kw_var][Space] = start_lex_CrKW;
-	table[s_kw_var][LF] = start_lex_CrKW_LF;
-	table[s_kw_var][Semicolon] = start_lex_CrKWEmpty;
-	table[s_kw_var][EndOfFile] = EXIT6;
+	table[kw_var][Letter] = variable_B;
+	table[kw_var][Digit] = variable_B;
+	table[kw_var][Space] = start_lex_CrKW;
+	table[kw_var][LF] = start_lex_CrKW_LF;
+	table[kw_var][Semicolon] = start_lex_CrKWEmpty;
+	table[kw_var][EndOfFile] = EXIT6;
 
-	table[s_kw_var_bracket][Letter] = variable_B; 
-	table[s_kw_var_bracket][Digit] = variable_B;
-	table[s_kw_var_bracket][LF] = error1_LF;
-	table[s_kw_var_bracket][OpenRoundBracket] = start_lex_CrLex_Bracket1;
+	table[kw_var_bracket][Letter] = variable_B;
+	table[kw_var_bracket][Digit] = variable_B;
+	table[kw_var_bracket][LF] = error1_LF;
+	table[kw_var_bracket][OpenRoundBracket] = start_lex_CrLex_Bracket1;
 
-	table[s_kw_var_default][Letter] = variable_B;
-	table[s_kw_var_default][Digit] = variable_B;
-	table[s_kw_var_default][LF] = error1_LF;
-	table[s_kw_var_default][Colon] = start_lex_CrLex_Colon;
+	table[kw_var_default][Letter] = variable_B;
+	table[kw_var_default][Digit] = variable_B;
+	table[kw_var_default][LF] = error1_LF;
+	table[kw_var_default][Colon] = start_lex_CrLex_Colon;
 
-	table[s_goto_space][Letter] = variable_B;
-	table[s_goto_space][Digit] = variable_B;
-	table[s_goto_space][Space] = goto_mark1_A;
-	table[s_goto_space][LF] = error1_LF;
+	table[goto_space][Letter] = variable_B;
+	table[goto_space][Digit] = variable_B;
+	table[goto_space][Space] = goto_mark1_A;
+	table[goto_space][LF] = error1_LF;
 
-	table[s_goto_mark1][Letter] = goto_mark2_A;
-	table[s_goto_mark1][LF] = error1_LF;
+	table[goto_mark1][Letter] = goto_mark2_A;
+	table[goto_mark1][LF] = error1_LF;
 
-	table[s_goto_mark2][Letter] = goto_mark2_B; 
-	table[s_goto_mark2][Digit] = goto_mark2_B;
-	table[s_goto_mark2][Space] = start_lex_CrGTMark;
-	table[s_goto_mark2][LF] = start_lex_CrGTMark_LF;
-	table[s_goto_mark2][Semicolon] = start_lex_CrGTMarkEmpty;
+	table[goto_mark2][Letter] = goto_mark2_B;
+	table[goto_mark2][Digit] = goto_mark2_B;
+	table[goto_mark2][Space] = start_lex_CrGTMark;
+	table[goto_mark2][LF] = start_lex_CrGTMark_LF;
+	table[goto_mark2][Semicolon] = start_lex_CrGTMarkEmpty;
 	//EXTT?
 
-	table[s_kw_var_bracket2][Letter] = variable_B;
-	table[s_kw_var_bracket2][Digit] = variable_B;
-	table[s_kw_var_bracket2][Space] = start_lex_CrKW;
-	table[s_kw_var_bracket2][LF] = start_lex_CrKW_LF;
-	table[s_kw_var_bracket2][Semicolon] = start_lex_CrKWEmpty;
-	table[s_kw_var_bracket2][OpenRoundBracket] = start_lex_CrLex_Bracket1;
-	table[s_kw_var_bracket2][EndOfFile] = EXIT6;
+	table[kw_var_bracket2][Letter] = variable_B;
+	table[kw_var_bracket2][Digit] = variable_B;
+	table[kw_var_bracket2][Space] = start_lex_CrKW;
+	table[kw_var_bracket2][LF] = start_lex_CrKW_LF;
+	table[kw_var_bracket2][Semicolon] = start_lex_CrKWEmpty;
+	table[kw_var_bracket2][OpenRoundBracket] = start_lex_CrLex_Bracket1;
+	table[kw_var_bracket2][EndOfFile] = EXIT6;
 
-	table[s_kw_var_to][Letter] = variable_B;
-	table[s_kw_var_to][Digit] = variable_B;
-	table[s_kw_var_to][Space] = start_lex_CrKW;
-	table[s_kw_var_to][LF] = start_lex_CrKW_LF;
-	table[s_kw_var_to][Semicolon] = start_lex_CrKWEmpty;
-	table[s_kw_var_to][OpenSquareBracket] = const_vec1_CrLexTo;
-	table[s_kw_var_to][OpenRoundBracket] = start_lex_CrLex_Bracket1;
-	table[s_kw_var_to][EndOfFile] = EXIT6;
+	table[kw_var_to][Letter] = variable_B;
+	table[kw_var_to][Digit] = variable_B;
+	table[kw_var_to][Space] = start_lex_CrKW;
+	table[kw_var_to][LF] = start_lex_CrKW_LF;
+	table[kw_var_to][Semicolon] = start_lex_CrKWEmpty;
+	table[kw_var_to][OpenSquareBracket] = const_vec1_CrLexTo;
+	table[kw_var_to][OpenRoundBracket] = start_lex_CrLex_Bracket1;
+	table[kw_var_to][EndOfFile] = EXIT6;
 
-	table[s_arif][Letter] = read_keyword_CrArif;
-	table[s_arif][Digit] = constant_CrArif;
-	table[s_arif][Relation] = start_lex_CrCoutMark;
-	table[s_arif][Space] = start_lex_CrArif;
-	table[s_arif][LF] = start_lex_CrArif_LF;
-	table[s_arif][OpenRoundBracket] = start_lex_CrArif_CrRBracket1;
-	table[s_arif][EndOfFile] = EXIT6;
+	table[arif][Letter] = read_keyword_CrArif;
+	table[arif][Digit] = constant_CrArif;
+	table[arif][Relation] = start_lex_CrCoutMark;
+	table[arif][Space] = start_lex_CrArif;
+	table[arif][LF] = start_lex_CrArif_LF;
+	table[arif][OpenRoundBracket] = start_lex_CrArif_CrRBracket1;
+	table[arif][EndOfFile] = EXIT6;
 }
 
 void parse(const char* filename)
@@ -1698,7 +1705,7 @@ void parse(const char* filename)
 		return;
 	}
 	int ch;             // Входной символ.
-	int state = s_start_lex;   // Текущее состояние автомата.
+	int state = start_lex;   // Текущее состояние автомата.
 	while (state != s_STOP)
 	{
 		// s_Stop - техническое состояние. Когда автомат попадает в s_Stop, цикл останавливается.
@@ -1798,7 +1805,7 @@ void printLexemList()
 		case lex_dim:
 		{
 			std::cout << std::get<2>(*it) << ": ";
-			std::cout << "dim" << std::endl;
+			std::cout << "lex_dim" << std::endl;
 			break;
 		}
 		case lex_as:
@@ -1899,7 +1906,7 @@ void printLexemList()
 			{
 				for (int i = 1; i < ((Variable*)std::get<1>(*it))->name.length(); i++)
 					std::cout << ((Variable*)std::get<1>(*it))->name[i];
-				std::cout << ' ' << std::get<1>(*it) << " -label" << std::endl;
+				std::cout << ' ' << std::get<1>(*it) << std::endl;
 			}
 			break;
 		}
@@ -2016,7 +2023,7 @@ void printLexemList()
 			std::cout << std::get<2>(*it) << ": ";
 			if (((Variable*)std::get<1>(*it))->name[0] != '~' || ((Variable*)std::get<1>(*it))->name[0] != '#')
 				std::cout << ((Variable*)std::get<1>(*it))->name << ' ';
-			std::cout << ((Variable*)std::get<1>(*it))->integer_value << " -variable" << std::endl;
+			std::cout << ((Variable*)std::get<1>(*it))->integer_value << std::endl;
 			break;
 		}
 		case lex_constant:
@@ -2092,28 +2099,33 @@ void PrintErrorList()
 	}
 }
 
-//int main(int argc, char* argv[])
-//{
-//	//if (argc != 2)
-//	//{
-//	//    cout << "Формат: ./имя-исполняемого-файла имя-входного-файла" << endl;
-//	//    return 1;
-//	//}
-//
-//	// Поскольку автомат не меняется, то таблица инициализируется один раз.
-//	init_beg_vect();
-//	init_detect_table();
-//	initialize_table();
-//	parse("LIV2.txt");
-//
-//	std::cout << "\t" << "<Name Table>" << std::endl;
-//	printNameTable();
-//	printConstTable();
-//	printMarkTable();
-//	printLexemList();
-//	std::cout << std::endl;
-//	PrintErrorList();
-//	//parse(argv[1]);
-//
-//	return 0;
-//}
+int main(int argc, char* argv[])
+{
+	//if (argc != 2)
+	//{
+	//    cout << "Формат: ./имя-исполняемого-файла имя-входного-файла" << endl;
+	//    return 1;
+	//}
+
+	// Поскольку автомат не меняется, то таблица инициализируется один раз.
+	init_beg_vect();
+	init_detect_table();
+	initialize_table();
+	parse("LIV1.txt");
+
+	/*std::cout << "\t" << "<Name Table>" << std::endl;
+	printNameTable();
+	printConstTable();
+	printMarkTable();
+	printLexemList();
+	std::cout << std::endl;
+	PrintErrorList();*/
+	//parse(argv[1]);
+
+	Syntactical_Symbol S(false, "{S'}", 100);
+	CF_Grammar* bob = new CF_Grammar("LR1Grammar.txt");
+	bob->PrepareInputWord(lexem_list);
+	bob->synt_parse();
+
+	return 0;
+}
