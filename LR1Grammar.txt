@@ -43,21 +43,13 @@
 {OPER} exception ;
 {OPER} remark
 {OPER} begin {PROG} end ;
-
+{E} {E} + {T}
+{E} {E} - {T}
 {E} {T}
-{E} {T} {E'}
-{E'} + {T} {E'}
-{E'} - {T} {E'}
-{E'} + {T}
-{E'} - {T}
+{T} {T} * {F}
+{T} {T} / {F}
+{T} {T} % {F}
 {T} {F}
-{T} {F} {T'}
-{T'} * {F} {T'}
-{T'} / {F} {T'}
-{T'} % {F} {T'}
-{T'} * {F}
-{T'} / {F}
-{T'} % {F} {T'}
 {F} variable
 {F} constant
 {F} ( {E} )

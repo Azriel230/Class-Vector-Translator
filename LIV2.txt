@@ -1,23 +1,6 @@
 dim x as int;
-dim y as vec;
-dim i as int;
-dim z as int;
-dim vec1 as vec;
-dim vec2 as vec;
-dim vec3 as vec;
-dim vec4 as vec;
-set x to (7);
+dim x as vec;
 set y to [1 2 3];
-set x,i to 12;
-while x<10 do begin set x to x + 1; end;
-for i = 1 to 100 do ;
-if x + y > z then ; else ;
-if x + y > z then ;
-x <- i <- z <- cin;
-y -> 10 -> [1 2 3] -> cout;
-ab1:
-goto ab1 ;
-switch(x + 3) case 1, 2, 3: begin set x to x + 1; end; default: ; end switch ;
-exception;
-<<<hello world $&>>>
-scalarprod(vec1, vec2) -> at(vec1, 3+5) -> conc(vec3, vec4) -> shiftr(vec1, 4) -> shiftl(vec2, 4) -> subvec(vec4, 2, 5) -> cout;
+goto ab1 ; 
+set x to x / 1;
+set x to ((((5*10)))));

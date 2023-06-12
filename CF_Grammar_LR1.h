@@ -219,6 +219,9 @@ public:
 	TableLR1 m_curr_table;
 	std::vector<std::string> m_ActionListStr = { "TRANSFER", "CONVOLUTION", "ACCEPT", "ERROR" };
 	bool m_synth_error_flag;
+
+	int m_countOfLR1Situations;
+
 	CF_Grammar(std::string filename);
 	//~CF_Grammar();
 

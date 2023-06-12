@@ -194,6 +194,8 @@ CF_Grammar::CF_Grammar(std::string filename)
 	}
 
 	input_file.close();
+
+	m_countOfLR1Situations = 0;
 }
 
 void CF_Grammar::print_rules()
@@ -308,7 +310,7 @@ void CF_Grammar::GOTO(TableLR1 table, Syntactical_Symbol symbol)
 	}
 	if (newTable.m_situations.size() > 0)
 	{
-		FixGenerateTableLR1(newTable);
+		//FixGenerateTableLR1(newTable);
 		GenerateTableLR1(newTable);
 	}
 }
@@ -326,7 +328,7 @@ void CF_Grammar::GenerateTableLR1(TableLR1 table)
 		currSituation.m_rp_after_point = m_rules.find(S)->second.m_right_part;
 		currSituation.m_avan_chain.push_back(Syntactical_Symbol(true, "epsilon", -1));
 		table.m_situations.push_back(currSituation);
-		FixGenerateTableLR1(table);
+		//FixGenerateTableLR1(table);
 		GenerateTableLR1(table);
 	}
 	else //остальные случаи 
@@ -382,12 +384,12 @@ void CF_Grammar::GenerateTableLR1(TableLR1 table)
 		}
 		if (TableChangedFlag)
 		{
-			FixGenerateTableLR1(table);
+			//FixGenerateTableLR1(table);
 			GenerateTableLR1(table);
 		}
 		else
 		{
-			FixGenerateTableLR1(table);
+			//FixGenerateTableLR1(table);
 			m_curr_table = table;
 		}
 	}
@@ -458,7 +460,7 @@ void CF_Grammar::PrepareInputWord(const std::list<std::tuple<Lexem, long long in
 			}
 			else
 			{
-				std::cout << "SYNTH BLOCK: VARIABLE " << ((Variable*)(std::get<1>(*it)))->name << " DECLARED TWICE" << std::endl;
+				std::cout << "SYNTH BLOCK: VARIABLE " << ((Variable*)(std::get<1>(*nextIter)))->name << " DECLARED TWICE" << std::endl;
 				m_synth_error_flag = true;
 				return;
 			}
@@ -736,12 +738,12 @@ void CF_Grammar::synt_parse()
 		{
 			std::cout << std::endl << "Current Symbol: " << std::get<0>(*it).m_name << "  Current Action: " << m_ActionListStr[currAction.act] << " by rule: ";
 			print_rule(currAction.rule_conv);
-			std::cout << "  CurrentTable Situation = " << m_curr_table.m_situations.size() << std::endl;
+			std::cout << " CurrentTable Situation = " << m_curr_table.m_situations.size() << std::endl;
 		}
 		else
 		{
 			std::cout << std::endl << "Current Symbol: " << std::get<0>(*it).m_name << "  Current Action: " << m_ActionListStr[currAction.act];
-			std::cout << "  CurrentTable Situation = " << m_curr_table.m_situations.size() << std::endl;
+			std::cout << " CurrentTable Situation = " << m_curr_table.m_situations.size() << std::endl;
 		}
 		std::cout << "Current Table: " << std::endl;
 		for (int i = 0; i < m_curr_table.m_situations.size(); i++)
@@ -757,6 +759,7 @@ void CF_Grammar::synt_parse()
 		{
 			GOTO(m_curr_table, std::get<0>(*it));
 			//FixGenerateTableLR1(m_curr_table);
+			m_countOfLR1Situations += m_curr_table.m_situations.size();
 			m_magazine.emplace_back(std::get<0>(*it), m_curr_table);
 			++it;
 		}
@@ -766,6 +769,7 @@ void CF_Grammar::synt_parse()
 			m_curr_table = m_magazine.back().second;
 			GOTO(m_curr_table, currAction.rule_conv.m_left_part);
 			//FixGenerateTableLR1(m_curr_table);
+			m_countOfLR1Situations += m_curr_table.m_situations.size();
 			m_magazine.emplace_back(currAction.rule_conv.m_left_part, m_curr_table);
 		}
 		else if (currAction.act == ERROR)
@@ -785,6 +789,7 @@ void CF_Grammar::synt_parse()
 	{
 		GOTO(m_curr_table, std::get<0>(*it));
 		//FixGenerateTableLR1(m_curr_table);
+		m_countOfLR1Situations += m_curr_table.m_situations.size();
 		m_magazine.emplace_back(std::get<0>(*it), m_curr_table);
 		++it;
 	}
@@ -795,10 +800,24 @@ void CF_Grammar::synt_parse()
 		while (true)
 		{
 			Action currAction = get_action(m_curr_table, Syntactical_Symbol(true, "epsilon", -1));
+
+			if (currAction.act == CONVOLUTION)
+			{
+				std::cout << std::endl << "Current Symbol: " << "epsilon" << "  Current Action: " << m_ActionListStr[currAction.act] << " by rule: ";
+				print_rule(currAction.rule_conv);
+				std::cout << " CurrentTable Situation = " << m_curr_table.m_situations.size() << std::endl;
+			}
+			else
+			{
+				std::cout << std::endl << "Current Symbol: " << "epsilon" << "  Current Action: " << m_ActionListStr[currAction.act];
+				std::cout << " CurrentTable Situation = " << m_curr_table.m_situations.size() << std::endl;
+			}
+
 			if (currAction.act == TRANSFER)
 			{
 				GOTO(m_curr_table, std::get<0>(*it));
 				//FixGenerateTableLR1(m_curr_table);
+				m_countOfLR1Situations += m_curr_table.m_situations.size();
 				m_magazine.emplace_back(std::get<0>(*it), m_curr_table);
 				++it;
 			}
@@ -808,11 +827,18 @@ void CF_Grammar::synt_parse()
 				m_curr_table = m_magazine.back().second;
 				GOTO(m_curr_table, currAction.rule_conv.m_left_part);
 				//FixGenerateTableLR1(m_curr_table);
+				m_countOfLR1Situations += m_curr_table.m_situations.size();
 				m_magazine.emplace_back(currAction.rule_conv.m_left_part, m_curr_table);
 			}
 			else if (currAction.act == ACCEPT)
 			{
-				std::cout << "CORRECT PROGRAM!"; //победа
+				std::cout << std::endl << "Current Symbol: " << "epsilon" << "  Current Action: " << m_ActionListStr[currAction.act];
+				std::cout << " CurrentTable Situation = " << m_curr_table.m_situations.size() << std::endl << std::endl;
+
+				std::cout << "CORRECT PROGRAM!" << std::endl; //победа
+
+				std::cout << "Total count of LR1-Situation: " << m_countOfLR1Situations << std::endl;
+
 				return;
 			}
 			else if (currAction.act == ERROR)

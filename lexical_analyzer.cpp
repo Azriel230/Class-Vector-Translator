@@ -134,6 +134,8 @@ int reg_remark = 0; // Регистр комментария
 int error_state = 0; //запоминает состояние, вызвавшее ошибку
 int error_symbolic_token_class = 0; //запоминает символ, который вызвал ошибку
 
+bool error_lex_block_flag = false;
+
 std::map<std::string, Variable> nameTable;
 std::list<std::tuple<Lexem, long long int, int>> lexem_list;
 std::list<std::string> error_messages_list; //список ошибок
@@ -326,6 +328,8 @@ int err_flag_helpformessage = -1; //-1: Флаг опущен; 1: Флаг поднят для случая 1
 
 int Error1()
 {
+	error_lex_block_flag = true;
+
 	//ищем нужное сообщение об ошибочке
 	if (error_state == start_lex) //состояние начала считывания лексемы
 	{
@@ -2057,6 +2061,7 @@ void printLexemList()
 		}
 		case lex_error: //need improved
 		{
+			error_lex_block_flag = true;
 			std::cout << "error in line" << ' ';
 			std::cout << std::get<1>(*it) << std::endl;
 			break;
@@ -2122,11 +2127,17 @@ int main(int argc, char* argv[])
 	PrintErrorList();
 	//parse(argv[1]);
 
-	Syntactical_Symbol S(false, "{S'}", 100);
-	CF_Grammar* bob = new CF_Grammar("LR1Grammar.txt");
-	bob->print_rules();
-	bob->PrepareInputWord(lexem_list);
-	bob->synt_parse();
+	if(!error_lex_block_flag)
+	{
+		CF_Grammar* bob = new CF_Grammar("LR1Grammar.txt");
+		bob->print_rules();
+		bob->PrepareInputWord(lexem_list);
+		bob->synt_parse();
+	}
+	else
+	{
+		std::cout << std::endl << "Error in lex block. Incorrect input word!" << std::endl;
+	}
 
 	return 0;
 }
